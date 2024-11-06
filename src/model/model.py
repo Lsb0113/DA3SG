@@ -8,7 +8,8 @@ import os
 import numpy as np
 import torch
 from torch.utils.tensorboard import SummaryWriter
-
+import sys
+sys.path.append('CVPR2023-VLSAT-main/src')
 from src.dataset.DataLoader import (CustomDataLoader, collate_fn_mmg)
 from src.dataset.dataset_builder import build_dataset
 from src.model.SGFN_MMG.model import Mmgnet
