@@ -15,7 +15,7 @@ from src.utils.eva_utils_acc import (evaluate_topk_object,
                                  evaluate_topk_predicate,
                                  evaluate_triplet_topk, get_gt)
 from utils import op_utils
-
+from PointMLP.models.pointmlp import PointMLP_Our
 
 class Mmgnet(BaseModel):
     def __init__(self, config, num_obj_class, num_rel_class, dim_descriptor=11):
@@ -46,15 +46,21 @@ class Mmgnet(BaseModel):
         dim_point_feature = 768
         self.momentum = 0.1
         self.model_pre = None
-        
+
+        add_new_module = []
         # Object Encoder
-        self.obj_encoder = PointNetfeat(
-            global_feat=True, 
-            batch_norm=with_bn,
-            point_size=dim_point, 
-            input_transform=False,
-            feature_transform=mconfig.feature_transform,
-            out_size=dim_point_feature)      
+        self.obj_encoder = PointMLP_Our(points=128, embed_dim=dim_point_feature, groups=1, res_expansion=0.25,
+                                        activation="relu", bias=False, use_xyz=False, normalize="anchor",
+                                        dim_expansion=[2, 2, 2, 1], pre_blocks=[1, 1, 2, 1], pos_blocks=[1, 1, 2, 1],
+                                        k_neighbors=[12, 12, 12, 12], reducers=[2, 2, 2, 2])
+        self.alpha_trans2d = torch.nn.Linear(in_features=512, out_features=512, bias=True)
+        self.fai_trans2d = torch.nn.Linear(in_features=512, out_features=512, bias=True)
+        self.lamda_trans2d = torch.nn.Linear(in_features=512, out_features=512, bias=True)
+        self.obj2d_fuse_to_rel = torch.nn.Linear(in_features=3 * 512, out_features=512, bias=True)
+        add_new_module.append(self.alpha_trans2d)
+        add_new_module.append(self.fai_trans2d)
+        add_new_module.append(self.lamda_trans2d)
+        add_new_module.append(self.obj2d_fuse_to_rel)
         
         # Relationship Encoder
         self.rel_encoder_2d = PointNetfeat(
@@ -132,7 +138,12 @@ class Mmgnet(BaseModel):
         self.init_weight(obj_label_path=mconfig.obj_label_path, \
                          rel_label_path=mconfig.rel_label_path, \
                          adapter_path=mconfig.adapter_path)
-        
+
+        add_new_module_para = []
+        for module in add_new_module:
+            for name, para in module.named_parameters():
+                add_new_module_para.append(para)
+              
         mmg_obj, mmg_rel = [], []
         for name, para in self.mmg.named_parameters():
             if 'nn_edge' in name:
@@ -154,6 +165,8 @@ class Mmgnet(BaseModel):
             {'params':self.triplet_projector_3d.parameters(), 'lr':float(config.LR), 'weight_decay':self.config.W_DECAY, 'amsgrad':self.config.AMSGRAD},
             {'params':self.triplet_projector_2d.parameters(), 'lr':float(config.LR), 'weight_decay':self.config.W_DECAY, 'amsgrad':self.config.AMSGRAD},
             {'params':self.obj_logit_scale, 'lr':float(config.LR), 'weight_decay':self.config.W_DECAY, 'amsgrad':self.config.AMSGRAD},
+            {'params': add_new_module_para, 'lr': float(config.LR), 'weight_decay': self.config.W_DECAY,
+             'amsgrad': self.config.AMSGRAD},
         ])
         self.lr_scheduler = CosineAnnealingLR(self.optimizer, T_max=self.config.max_iteration, last_epoch=-1)
         self.optimizer.zero_grad()
@@ -308,6 +321,12 @@ class Mmgnet(BaseModel):
         ''' Create 2d feature'''
         with torch.no_grad():
             obj_2d_feats = self.clip_adapter(obj_2d_feats)
+
+        # src_idx, dst_idx = edge_indices[0, :], edge_indices[1, :]
+        # rel_feature_2d = F.relu(self.obj2d_fuse_to_rel(torch.cat([F.relu(self.alpha_trans2d(obj_2d_feats[src_idx])),
+        #                                                           F.relu(self.lamda_trans2d(rel_feature_2d)),
+        #                                                           F.relu(self.fai_trans2d(obj_2d_feats[dst_idx]))],
+        #                                                          dim=-1)))
         
         obj_features_2d_mimic = obj_2d_feats.clone()
 
