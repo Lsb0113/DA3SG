@@ -75,4 +75,4 @@ python main.py
 In this repo, we have provided a default [config](https://github.com/Lsb0113/ViT3SG/blob/main/config/mmgnet.json)
 
 # Acknowledgement
-This repository is partly based on [VL-SAT](https://github.com/wz7in/CVPR2023-VLSAT) and [CLIP](https://github.com/openai/CLIP) repositories.
+This repository is partly based on [VL-SAT](https://github.com/wz7in/CVPR2023-VLSAT), [PointMLP](https://github.com/ma-xu/pointMLP-pytorch) and [CLIP](https://github.com/openai/CLIP) repositories.
