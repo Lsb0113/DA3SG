@@ -68,7 +68,7 @@ or just use the checkpoint
 ``` clip_adapter/checkpoint/origin_mean.pth ```
 
 # Run Code
-Before running the main file, you can modify some of the experimental Settings to suit your needs.
+Before running the main file, you can modify some of the experimental settings to suit your needs.
 ```bash
 python main.py
 ```
