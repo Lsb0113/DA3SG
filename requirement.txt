@@ -2,3 +2,10 @@ trimesh==3.12.7
 open3d==0.16.0
 tensorboard
 tqdm
+cycler
+einops
+h5py
+pyyaml==5.4.1
+scikit-learn==0.24.2
+scipy
+matplotlib==3.4.2
