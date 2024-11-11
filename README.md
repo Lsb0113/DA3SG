@@ -33,7 +33,7 @@ pip install pointnet2_ops_lib/.
 # Prepare the data
 A. Download 3Rscan and 3DSSG-Sub Annotation, you can follow [3DSSG](https://github.com/ShunChengWu/3DSSG#preparation). Alternatively, you can download the dataset as follows:
 ```bash
-# download dataset to the target folder
+# download dataset. One thing to note is that you need to manually change the paths for the training and validation sets.
 python dl_data.py
 # unzip dataset
 python unzip.py
