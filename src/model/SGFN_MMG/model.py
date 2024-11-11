@@ -15,7 +15,7 @@ from src.utils.eva_utils_acc import (evaluate_topk_object,
                                  evaluate_topk_predicate,
                                  evaluate_triplet_topk, get_gt)
 from utils import op_utils
-from PointMLP.models.pointmlp import PointMLP_Our
+from src.PointMLP.models.pointmlp import PointMLP_Our
 
 class Mmgnet(BaseModel):
     def __init__(self, config, num_obj_class, num_rel_class, dim_descriptor=11):
