@@ -34,6 +34,8 @@ A. Download 3Rscan and 3DSSG-Sub Annotation, you can follow [3DSSG](https://gith
 ```bash
 # download dataset to the target folder
 python dl_data.py
+# unzip dataset
+python unzip.py
 ```
 B. Generate 2D Multi View Image
 ```bash
