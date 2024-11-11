@@ -27,6 +27,7 @@ pip install torch-sparse -f https://pytorch-geometric.com/whl/torch-1.12.1+cu113
 pip install torch-spline-conv -f https://pytorch-geometric.com/whl/torch-1.12.1+cu113.html
 pip install torch-geometric
 pip install git+https://github.com/openai/CLIP.git
+pip install pointnet2_ops_lib/.
 ```
 
 # Prepare the data
