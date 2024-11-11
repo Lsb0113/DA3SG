@@ -1,8 +1,8 @@
-## :book: Object Dependency-Aware 3D Scene Graph Prediction for Point Cloud based onMultimodal Feature Learning
+## :book: Dependency-Aware 3D Scene Graph Prediction via Multimodal Feature Learning
 <image src="demo.png" width="100%">
 
 # Introduction
-This is a release of the code of our paper **_Object Dependency-Aware 3D Scene Graph Prediction for Point Cloud based on Multimodal Feature Learning_**.
+This is a release of the code of our paper **_Dependency-Aware 3D Scene Graph Prediction via Multimodal Feature Learning_**.
 
 Authors:
 Shibin Li*, 
