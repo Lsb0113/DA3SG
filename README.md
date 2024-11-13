@@ -5,14 +5,14 @@
 This is a release of the code of our paper **_Dependency-Aware 3D Scene Graph Prediction via Multimodal Feature Learning_**.
 
 Authors:
-Shibin Li*, 
-Shengnan Ke, 
-Jun Gong, 
-Shengjun Tang, 
-Lingxiang Liu, 
-Jiangjun Luo, 
-Ruisheng Wang, 
-Bing WANG
+XXXXX, 
+XXXXX, 
+XXXXX, 
+XXXXX, 
+XXXXX, 
+XXXXX, 
+XXXXX, 
+XXXXX
 
 [[code]](https://github.com/Lsb0113/DA3SG)
 
