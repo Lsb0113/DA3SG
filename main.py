@@ -98,6 +98,5 @@ def load_config():
     return config
 
 
-# MyGNN-44epochs,origin_ep43 GT-54 gat 56 relation_enchance 50
 if __name__ == '__main__':
     main()
